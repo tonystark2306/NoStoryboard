@@ -21,7 +21,7 @@ class ListScreen: UIViewController {
     
     private let emptyImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "gift_box")
+        imageView.image = UIImage(named: "gift_box") ?? UIImage(systemName: "gift")
         imageView.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.7, alpha: 1.0)
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +40,7 @@ class ListScreen: UIViewController {
     
     private let emptyMessageLabel: UILabel = {
         let label = UILabel()
-        label.text = "Empty folder, please tap \"Add Profile\"\nto create new profile"
+        label.text = "Empty folder, please tap \"Add Profile\"\n button to create new profile"
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .gray
         label.textAlignment = .center
@@ -81,7 +81,6 @@ class ListScreen: UIViewController {
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .medium)
         ]
         
-        // Add "+" button to navigation bar
         let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -172,24 +171,20 @@ class ListScreen: UIViewController {
             self?.updateProfile(updatedData)
         }
         profileVC.onProfileDeleted = { [weak self] in
-            self?.deleteProfile(userData)
+            self?.deleteProfile(userData.id)
         }
         navigationController?.pushViewController(profileVC, animated: true)
     }
     
     private func updateProfile(_ updatedData: UserData) {
-        if let index = profiles.firstIndex(where: {
-            $0.firstName == updatedData.firstName && $0.lastName == updatedData.lastName
-        }) {
+        if let index = profiles.firstIndex(where: { $0.id == updatedData.id }) {
             profiles[index] = updatedData
             updateUI()
         }
     }
     
-    private func deleteProfile(_ userData: UserData) {
-        profiles.removeAll { profile in
-            profile.firstName == userData.firstName && profile.lastName == userData.lastName
-        }
+    private func deleteProfile(_ profileId: UUID) {
+        profiles.removeAll { $0.id == profileId }
         updateUI()
     }
 }
@@ -206,7 +201,7 @@ extension ListScreen: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90 // Tăng chiều cao từ 80 lên 90 để có nhiều không gian hơn
+        return 90
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -3,7 +3,6 @@ import UIKit
 
 class InformationViewController: UIViewController {
     
-    // Data properties
     var userData: UserData?
     var onDataUpdated: ((UserData) -> Void)?
     
@@ -39,16 +38,14 @@ class InformationViewController: UIViewController {
     
     private let firstNameTextField: UITextField = {
         let textField = UITextField()
-        textField.text = "John"
-        textField.placeholder = "Enter first name"
         textField.borderStyle = .none
+        textField.placeholder = "Enter first name"
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 8
         textField.font = UIFont.systemFont(ofSize: 16)
         textField.translatesAutoresizingMaskIntoConstraints = false
         
-        // Add padding
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
         textField.leftView = paddingView
         textField.leftViewMode = .always
         
@@ -57,16 +54,14 @@ class InformationViewController: UIViewController {
     
     private let lastNameTextField: UITextField = {
         let textField = UITextField()
-        textField.text = "Wick"
-        textField.placeholder = "Enter last name"
         textField.borderStyle = .none
         textField.backgroundColor = .white
+        textField.placeholder = "Enter last name"
         textField.layer.cornerRadius = 8
         textField.font = UIFont.systemFont(ofSize: 16)
         textField.translatesAutoresizingMaskIntoConstraints = false
         
-        // Add padding
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
         textField.leftView = paddingView
         textField.leftViewMode = .always
         
@@ -77,7 +72,7 @@ class InformationViewController: UIViewController {
         let label = UILabel()
         label.text = "Gender"
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .black
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -117,17 +112,15 @@ class InformationViewController: UIViewController {
     
     private let weightTextField: UITextField = {
         let textField = UITextField()
-        textField.text = "86"
-        textField.placeholder = "kg"
         textField.borderStyle = .none
         textField.backgroundColor = .white
+        textField.placeholder = "kg"
         textField.layer.cornerRadius = 8
         textField.font = UIFont.systemFont(ofSize: 16)
         textField.keyboardType = .numberPad
         textField.translatesAutoresizingMaskIntoConstraints = false
         
-        // Add padding
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
         textField.leftView = paddingView
         textField.leftViewMode = .always
         
@@ -136,17 +129,15 @@ class InformationViewController: UIViewController {
     
     private let heightTextField: UITextField = {
         let textField = UITextField()
-        textField.text = "190"
-        textField.placeholder = "cm"
         textField.borderStyle = .none
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 8
+        textField.placeholder = "cm"
         textField.font = UIFont.systemFont(ofSize: 16)
         textField.keyboardType = .numberPad
         textField.translatesAutoresizingMaskIntoConstraints = false
         
-        // Add padding
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
         textField.leftView = paddingView
         textField.leftViewMode = .always
         
@@ -155,20 +146,9 @@ class InformationViewController: UIViewController {
     
     private let ageTextField: UITextField = {
         let textField = UITextField()
-        textField.text = "28"
-        textField.borderStyle = .none
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 8
-        textField.font = UIFont.systemFont(ofSize: 16)
-        textField.keyboardType = .numberPad
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.text = "25"
         textField.isHidden = true
-        
-        // Add padding
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
-        textField.leftView = paddingView
-        textField.leftViewMode = .always
-        
+        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -177,9 +157,9 @@ class InformationViewController: UIViewController {
         button.setTitle("Update", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+        button.backgroundColor = UIColor.lightGray
         button.layer.cornerRadius = 25
-        button.isEnabled = true
+        button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -190,20 +170,18 @@ class InformationViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupActions()
-        setupSampleData()
+        loadData()
     }
     
     private func setupUI() {
         view.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
         title = "Information"
         
-        // Setup navigation bar
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: UIColor.black,
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .medium)
         ]
         
-        // Add subviews
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         view.addSubview(updateButton)
@@ -225,82 +203,67 @@ class InformationViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // Scroll View
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: updateButton.topAnchor, constant: -10),
             
-            // Content View
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            // First Name Label
             firstNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             firstNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
-            // Last Name Label - căn chỉnh với Last Name TextField
             lastNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             lastNameLabel.leadingAnchor.constraint(equalTo: lastNameTextField.leadingAnchor),
             
-            // First Name TextField
             firstNameTextField.topAnchor.constraint(equalTo: firstNameLabel.bottomAnchor, constant: 8),
             firstNameTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             firstNameTextField.widthAnchor.constraint(equalToConstant: 150),
             firstNameTextField.heightAnchor.constraint(equalToConstant: 45),
             
-            // Last Name TextField
             lastNameTextField.topAnchor.constraint(equalTo: lastNameLabel.bottomAnchor, constant: 8),
             lastNameTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             lastNameTextField.widthAnchor.constraint(equalToConstant: 150),
             lastNameTextField.heightAnchor.constraint(equalToConstant: 45),
             
-            // Gender Label
             genderLabel.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor, constant: 30),
             genderLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
-            // Gender Segmented Control
             genderSegmentedControl.topAnchor.constraint(equalTo: genderLabel.bottomAnchor, constant: 8),
             genderSegmentedControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             genderSegmentedControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             genderSegmentedControl.heightAnchor.constraint(equalToConstant: 45),
             
-            // Weight Label
             weightLabel.topAnchor.constraint(equalTo: genderSegmentedControl.bottomAnchor, constant: 30),
             weightLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
-            // Height Label - căn chỉnh với Height TextField
             heightLabel.topAnchor.constraint(equalTo: genderSegmentedControl.bottomAnchor, constant: 30),
             heightLabel.leadingAnchor.constraint(equalTo: heightTextField.leadingAnchor),
             
-            // Weight TextField
             weightTextField.topAnchor.constraint(equalTo: weightLabel.bottomAnchor, constant: 8),
             weightTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             weightTextField.widthAnchor.constraint(equalToConstant: 150),
             weightTextField.heightAnchor.constraint(equalToConstant: 45),
             
-            // Height TextField
             heightTextField.topAnchor.constraint(equalTo: heightLabel.bottomAnchor, constant: 8),
             heightTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             heightTextField.widthAnchor.constraint(equalToConstant: 150),
             heightTextField.heightAnchor.constraint(equalToConstant: 45),
             
-            // Age TextField (hidden)
             ageTextField.topAnchor.constraint(equalTo: weightTextField.bottomAnchor, constant: 0),
             ageTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             ageTextField.widthAnchor.constraint(equalToConstant: 0),
             ageTextField.heightAnchor.constraint(equalToConstant: 0),
             
-            // Update Button
             updateButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             updateButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             updateButton.heightAnchor.constraint(equalToConstant: 50),
             updateButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             
-            // Content View bottom constraint
             contentView.bottomAnchor.constraint(greaterThanOrEqualTo: heightTextField.bottomAnchor, constant: 50)
         ])
     }
@@ -309,15 +272,13 @@ class InformationViewController: UIViewController {
         genderSegmentedControl.addTarget(self, action: #selector(genderSegmentChanged), for: .valueChanged)
         updateButton.addTarget(self, action: #selector(updateButtonTapped), for: .touchUpInside)
         
-        // Add text field observers
         firstNameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         lastNameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         weightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         heightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
     
-    private func setupSampleData() {
-        // Load data if available
+    private func loadData() {
         if let data = userData {
             firstNameTextField.text = data.firstName
             lastNameTextField.text = data.lastName
@@ -325,27 +286,24 @@ class InformationViewController: UIViewController {
             heightTextField.text = data.height
             ageTextField.text = data.age
             
-            if data.gender == "Male" {
-                genderSegmentedControl.selectedSegmentIndex = 0
-                selectedGender = "Male"
-            } else if data.gender == "Female" {
+            if data.gender == "Female" {
                 genderSegmentedControl.selectedSegmentIndex = 1
                 selectedGender = "Female"
+            } else {
+                genderSegmentedControl.selectedSegmentIndex = 0
+                selectedGender = "Male"
             }
         } else {
-            // Không pre-fill data cho lần đầu tạo profile mới
             firstNameTextField.text = ""
             lastNameTextField.text = ""
             weightTextField.text = ""
             heightTextField.text = ""
-            ageTextField.text = "25" // Age mặc định
+            ageTextField.text = "25"
             
-            // Select male by default
             genderSegmentedControl.selectedSegmentIndex = 0
             selectedGender = "Male"
         }
         
-        // Check validation after setting data
         textFieldDidChange()
     }
     
@@ -355,14 +313,12 @@ class InformationViewController: UIViewController {
     }
     
     @objc private func textFieldDidChange() {
-        // Check if all visible fields are filled
-        let isValid = !(firstNameTextField.text?.isEmpty ?? true) &&
-                     !(lastNameTextField.text?.isEmpty ?? true) &&
-                     !(weightTextField.text?.isEmpty ?? true) &&
-                     !(heightTextField.text?.isEmpty ?? true) &&
+        let isValid = !(firstNameTextField.text?.trimmingCharacters(in: .whitespaces).isEmpty ?? true) &&
+                     !(lastNameTextField.text?.trimmingCharacters(in: .whitespaces).isEmpty ?? true) &&
+                     !(weightTextField.text?.trimmingCharacters(in: .whitespaces).isEmpty ?? true) &&
+                     !(heightTextField.text?.trimmingCharacters(in: .whitespaces).isEmpty ?? true) &&
                      !selectedGender.isEmpty
         
-        // Update button state
         updateButton.isEnabled = isValid
         updateButton.backgroundColor = isValid ?
             UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0) :
@@ -370,20 +326,30 @@ class InformationViewController: UIViewController {
     }
     
     @objc private func updateButtonTapped() {
-        // Create user data from form
-        let userData = UserData(
-            firstName: firstNameTextField.text ?? "",
-            lastName: lastNameTextField.text ?? "",
-            weight: weightTextField.text ?? "",
-            height: heightTextField.text ?? "",
-            age: ageTextField.text ?? "25",
-            gender: selectedGender
-        )
+        let resultData: UserData
         
-        // Call the callback to update profile
-        onDataUpdated?(userData)
+        if let existingData = userData {
+            resultData = UserData(
+                id: existingData.id,
+                firstName: firstNameTextField.text?.trimmingCharacters(in: .whitespaces) ?? "",
+                lastName: lastNameTextField.text?.trimmingCharacters(in: .whitespaces) ?? "",
+                weight: weightTextField.text?.trimmingCharacters(in: .whitespaces) ?? "",
+                height: heightTextField.text?.trimmingCharacters(in: .whitespaces) ?? "",
+                age: ageTextField.text?.trimmingCharacters(in: .whitespaces) ?? "25",
+                gender: selectedGender
+            )
+        } else {
+            resultData = UserData(
+                firstName: firstNameTextField.text?.trimmingCharacters(in: .whitespaces) ?? "",
+                lastName: lastNameTextField.text?.trimmingCharacters(in: .whitespaces) ?? "",
+                weight: weightTextField.text?.trimmingCharacters(in: .whitespaces) ?? "",
+                height: heightTextField.text?.trimmingCharacters(in: .whitespaces) ?? "",
+                age: ageTextField.text?.trimmingCharacters(in: .whitespaces) ?? "25",
+                gender: selectedGender
+            )
+        }
         
-        // Navigate back to list screen
+        onDataUpdated?(resultData)
         navigationController?.popViewController(animated: true)
     }
 }

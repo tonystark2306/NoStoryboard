@@ -3,6 +3,18 @@ import UIKit
 
 class ProfileTableViewCell: UITableViewCell {
     
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 12
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.1
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let avatarView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.systemBlue
@@ -58,19 +70,9 @@ class ProfileTableViewCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         
-        let containerView = UIView()
-        containerView.backgroundColor = .white
-        containerView.layer.cornerRadius = 12
-        containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 2)
-        containerView.layer.shadowRadius = 4
-        containerView.layer.shadowOpacity = 0.1
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(containerView)
-        
-        avatarView.addSubview(avatarIconView)
         containerView.addSubview(avatarView)
+        avatarView.addSubview(avatarIconView)
         containerView.addSubview(nameLabel)
         containerView.addSubview(detailLabel)
         containerView.addSubview(chevronImageView)
@@ -111,10 +113,6 @@ class ProfileTableViewCell: UITableViewCell {
         nameLabel.text = "\(userData.firstName) \(userData.lastName)"
         detailLabel.text = "W: \(userData.weight)kg - H: \(userData.height)cm"
         
-        if userData.gender == "Female" {
-            avatarView.backgroundColor = UIColor.systemPink
-        } else {
-            avatarView.backgroundColor = UIColor.systemBlue
-        }
+        avatarView.backgroundColor = userData.gender == "Female" ? UIColor.systemPink : UIColor.systemBlue
     }
 }
