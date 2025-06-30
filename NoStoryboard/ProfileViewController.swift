@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+  
     
     private let userIconImageView: UIImageView = {
         let imageView = UIImageView()
